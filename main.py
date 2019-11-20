@@ -1,7 +1,7 @@
 import cv2
 import sys
 import filter_Task5 as filter       #File mit allen Methoden zum Filter
-
+import calc_diff
 
 class Main(object):
 
@@ -26,11 +26,14 @@ class Main(object):
         # Detect faces
         faces = face_cascade.detectMultiScale(gray, 1.1, 4)
         # Draw rectangle around the faces
-        for (x, y, w, h) in faces:
-            cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
+       # for (x, y, w, h) in faces:
+           # cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
         # Display the output
         cv2.imwrite('edited_'+img_name, img)
         cv2.imshow('img', img)
+
+        # Print error
+        print(calc_diff.rms(cv2.imread(img_name), img))
         cv2.waitKey()
 
     # Zusätzliche Methoden
