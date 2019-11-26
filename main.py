@@ -3,8 +3,8 @@ import sys
 import filter_Task5 as filter       #File mit allen Methoden zum Filter
 import calc_diff
 
-class Main(object):
 
+class Main(object):
     def __init__(self, imgName, boost):
         self.boost = boost
         self.filter = filter.Filter()

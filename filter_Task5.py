@@ -1,11 +1,11 @@
 import cv2
 import numpy as np
-'''
-'''
+
+
 class Filter:
-    '''
-    Filter Klasse
-    '''
+    # Flask:
+    # Methoden
+    # cv.filte2D(RGB_img, -1, kernel_2)
     def __init__(self):
         # Constructior
         self.name = "Beat Furrer"
@@ -26,7 +26,7 @@ class Filter:
         crop_img = image[y:y + h, x:x + w]
         blur_img = self.apply2_0(crop_img)
         # blur_img = self.shiftPixels(crop_img)
-        # blur_img = cv2.blur(crop_img, (boost[0], boost[1]))
+        # blur_img = cv2.blur(crop_img, (15, 15))
         new_image[y:y + h, x:x + w] = blur_img
         return new_image
 
@@ -44,12 +44,16 @@ class Filter:
                         newImage[i, j][0] = 101
                     if int(crop_img[i, j][0]) < dunkel and int(crop_img[i, j][1]) < dunkel and \
                             int(crop_img[i, j][2]) < dunkel:
-                        newImage[i, j][2] = 255
-                        newImage[i, j][1] = 193
-                        newImage[i, j][0] = 148
+                        newImage[i, j, 2] = 255
+                        newImage[i, j, 1] = 193
+                        newImage[i, j, 0] = 148
+                        # nur einen channel: newImage[i, j, ] = 148 (der Channel am schluss 0, 1, 2 einfach leer lassen)
                 j += 1
             i += 1
         return crop_img
+
+    def kim_Filter(self):
+        pass
 
     def shiftPixels(self, crop_img):
         diagonale = 0
