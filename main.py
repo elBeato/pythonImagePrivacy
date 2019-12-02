@@ -36,7 +36,8 @@ class Main(object):
         cv2.imshow('img', img)
 
         # Print error
-        print(calc_diff.rms(cv2.imread(self.img_name), img))
+        print(calc_diff.rms(cv2.imread(self.img_name), img, "image"))
+        print(calc_diff.rms(cv2.imread(self.img_name), img, "histogram"))
         cv2.waitKey()
 
     # Zusätzliche Methoden

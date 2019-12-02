@@ -8,7 +8,8 @@ Kim:
 
 
 Urs: 
-Ein dropdown menu zum auswählen aus 3 verschiedenen Fehlerberechnungsmethoden
+Ein dropdown menu zum auswählen aus 3 verschiedenen Fehlerberechnungsmethoden (rms, max-norm, binär)
+noch ein dropdown menu zum auswählen aus 2 verschiedenen datenräumen (bilddaten, histogrammdaten)
 Ein Output Feld, in welchem der Fehler als Zahl angezeigt wird
 fakultativ: ein aktualisieren-knopf, damit die angezeigte Zahl aktualisiert wird, wenn man beispielsweise den Filter
 ändert oder so. man kann das auch automatisch aktualisieren, aber dann muss man das entsprechend programmieren und 

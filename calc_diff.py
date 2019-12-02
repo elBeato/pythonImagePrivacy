@@ -35,6 +35,15 @@ def diffvector(original, modified, space):
 
 def rms(original, modified, space="image"):
 
+    '''
+    this function calculates the rms error between two images
+
+    the error calculation can either be done in image space or in histogram space
+
+    output is scaled relative to the average input values
+
+    output can be interpreted as a measure how much information was changed globally
+    '''
     # convert image to grayscale and float
     original, modified = convert(original, modified)
 
@@ -59,11 +68,20 @@ def rms(original, modified, space="image"):
 
 def chebyshev(original, modified, space="image"):
 
+    '''
+    this function calculates the maximal difference between two images
+
+    the calculation can be done either in image space or in histogram space
+
+    output is scaled relative to the input value
+
+    output can be interpreted as a measure how much information was changed locally
+    '''
     # convert image to grayscale and float
     original, modified = convert(original, modified)
 
     # calculate difference vector
-    difference = diffvector(original, modified, space)
+    difference = abs(diffvector(original, modified, space))
 
     # calculate chebyshev distance and where it occurs
     max_diff = np.amax(difference)
@@ -83,6 +101,16 @@ def chebyshev(original, modified, space="image"):
 
 def binary(original, modified, space="image"):
 
+    '''
+    this function calculates the percentage of pixels that have changed
+
+    the calculation can be done either in image space or in histogram space
+
+    output can be interpreted as a measure of how homogenous/inhomogenous
+    the image changes are.
+
+    output close to 1 means homogenous, close to 0 means inhomogenous
+    '''
     # convert image to grayscale and float
     original, modified = convert(original, modified)
 
