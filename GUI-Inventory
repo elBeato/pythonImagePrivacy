@@ -2,7 +2,33 @@ GUI-Inventory
 Was braucht ihr an Buttons, Sliders, Input-/Output-Felder etc? Bitte hier vermerken:
 
 Beat:
+3 radio Buttons um die verschiedenen Filter für die Gesichter auszuwählen. 
+Dann würde ich noch einen Button für Anwenden vom Filter spendieren.
+Es gibt dann drei Methoden in meiner Klasse "Filter", die heissen: 
 
+- applyBlur(self, image, coordinates, boost)
+ 	'''
+	Applies a blur filter to the specified image areas
+	:param image: complet image			datatyp: ndarry
+        :param coordinates: areas to be blurred		datatyp: list mit 4 items
+        :param boost: intensity of the blurdness	datatyp: int
+        :return: new image with the blured areas	datatyp: ndarry
+        '''
+- applyInvert(self, image, coordinates)
+ 	'''
+	Applies a blur filter to the specified image areas
+	:param image: complet image
+        :param coordinates: areas to be blurred
+        :return: new image with the blured areas
+        '''
+- applyPreventFD(self, image, coordinates, intensity)
+ 	'''
+	Applies a blur filter to the specified image areas
+	:param image: complet image, datatyp: 
+        :param coordinates: areas to be blurred
+	:param intensity: 				datatyp: int
+        :return: new image with the blured areas
+        '''
 
 Kim:
 

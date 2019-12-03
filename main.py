@@ -21,7 +21,7 @@ class Main(object):
         # blur defined areas in a picture
         for (x, y, w, h) in faces:
             # Method: apply() from class: Filter
-            blured = self.filter.apply(img, [x, y, w, h], [self.boost, self.boost])
+            blured = self.filter.applyBlur(img, [x, y, w, h], [self.boost, self.boost])
         # Convert into grayscale
         gray = cv2.cvtColor(blured, cv2.COLOR_BGR2GRAY)
 
