@@ -15,7 +15,7 @@ class Main(object):
         face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
         # Read the input image
         #img_name = sys.argv[1]
-        img = cv2.imread(self.img_name)
+        img = cv2.cvtColor(cv2.imread(self.img_name), cv2.COLOR_BGR2GRAY)
         # Detect faces
         faces = face_cascade.detectMultiScale(img, 1.1, 4)
         # blur defined areas in a picture
@@ -23,10 +23,9 @@ class Main(object):
             # Method: apply() from class: Filter
             blured = self.filter.applyBlur(img, [x, y, w, h], [self.boost, self.boost])
         # Convert into grayscale
-        gray = cv2.cvtColor(blured, cv2.COLOR_BGR2GRAY)
 
         # Detect faces
-        faces = face_cascade.detectMultiScale(gray, 1.1, 4)
+        faces = face_cascade.detectMultiScale(blured, 1.1, 4)
 
         # Draw rectangle around the faces
         for (x, y, w, h) in faces:
@@ -36,8 +35,8 @@ class Main(object):
         cv2.imshow('img', img)
 
         # Print error
-        print(calc_diff.rms(cv2.imread(self.img_name), img, "image"))
-        print(calc_diff.rms(cv2.imread(self.img_name), img, "histogram"))
+        # print(calc_diff.rms(cv2.imread(self.img_name), img, "image"))
+        # print(calc_diff.rms(cv2.imread(self.img_name), img, "histogram"))
         cv2.waitKey()
 
     # Zusätzliche Methoden
