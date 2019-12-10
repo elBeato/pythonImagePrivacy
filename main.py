@@ -2,6 +2,10 @@ import cv2
 import sys
 import filter_Task5 as filter       #File mit allen Methoden zum Filter
 import calc_diff
+import faceDetect_improved1
+import faceDetect_improved2
+
+
 
 
 class Main(object):
@@ -15,17 +19,18 @@ class Main(object):
         face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
         # Read the input image
         #img_name = sys.argv[1]
-        img = cv2.cvtColor(cv2.imread(self.img_name), cv2.COLOR_BGR2GRAY)
+        img = cv2.imread(self.img_name)
         # Detect faces
         faces = face_cascade.detectMultiScale(img, 1.1, 4)
         # blur defined areas in a picture
         for (x, y, w, h) in faces:
             # Method: apply() from class: Filter
-            blured = self.filter.applyBlur(img, [x, y, w, h], [self.boost, self.boost])
+            blured = self.filter.apply(img, [x, y, w, h], [self.boost, self.boost])
         # Convert into grayscale
+        gray = cv2.cvtColor(blured, cv2.COLOR_BGR2GRAY)
 
         # Detect faces
-        faces = face_cascade.detectMultiScale(blured, 1.1, 4)
+        faces = face_cascade.detectMultiScale(gray, 1.1, 4)
 
         # Draw rectangle around the faces
         for (x, y, w, h) in faces:
@@ -35,8 +40,7 @@ class Main(object):
         cv2.imshow('img', img)
 
         # Print error
-        # print(calc_diff.rms(cv2.imread(self.img_name), img, "image"))
-        # print(calc_diff.rms(cv2.imread(self.img_name), img, "histogram"))
+        print(calc_diff.rms(cv2.imread(self.img_name), img))
         cv2.waitKey()
 
     # Zusätzliche Methoden
@@ -48,8 +52,23 @@ if __name__ == '__main__':
     # Hauptprogramm startet mit diesen Zeilen
     # Beispiel mit Filterstufe 1
     add = 50
-    m = Main("test2.jpg", 1)
+    #m = Main("test2.jpg", 1)
+    #m.load()
+
+    #m = Main("test.jpg", 1)
+    #m.load()
+
+    #m = faceDetect_improved1.myFaceDetector1("test.jpg", 1)
+    #m.load()
+
+    m = faceDetect_improved1.myFaceDetector1("test2.jpg", 1)
     m.load()
 
-    m = Main("test.jpg", 1)
+    #m = faceDetect_improved2.myFaceDetector2("test.jpg", 1)
+    #m.load()
+
+    #m = faceDetect_improved2.myFaceDetector2("test2.jpg", 1)
+    #m.load()
+
+    m = faceDetect_improved2.myFaceDetector2("test2.jpg", 1)
     m.load()
