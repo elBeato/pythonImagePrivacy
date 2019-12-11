@@ -181,6 +181,25 @@ border-color:rgba(137,136,191,250);
 color: black;
 }
 
+#label_facedetection_anwenden{
+background:rgba(137,136,191,250);
+border-radius:3px;
+color: white;
+}
+
+#label_facedetection_anwenden:hover{
+background:white;
+border-radius:3px;
+border-style:solid;
+border-width:1.5px;
+border-color:rgba(137,136,191,250);
+color: black;
+}
+
+
+
+
+
 #label_filter_loadimage{
 background:#03013A;
 border-radius:5px;
@@ -442,7 +461,7 @@ border-color:grey;
       </item>
       <item>
        <property name="text">
-        <string>max-norm</string>
+        <string>chebyshev</string>
        </property>
       </item>
       <item>
@@ -595,7 +614,7 @@ border-color:grey;
       </item>
       <item>
        <property name="text">
-        <string>Diagram</string>
+        <string>Histogram</string>
        </property>
       </item>
      </widget>
@@ -882,6 +901,30 @@ border-color:grey;
         <string>Face Detection 3</string>
        </property>
       </item>
+     </widget>
+     <widget class="QLabel" name="label_facedetection_anwenden">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>140</y>
+        <width>221</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Anwenden</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="margin">
+       <number>6</number>
+      </property>
      </widget>
     </widget>
     <widget class="QLabel" name="label_filter_loadimage">

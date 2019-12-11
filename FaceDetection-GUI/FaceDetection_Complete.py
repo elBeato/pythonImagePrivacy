@@ -17,8 +17,9 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
-import PIL
-from PIL import Image
+import cv2
+import numpy as np
+import math
 
 import glob, os
 
@@ -70,59 +71,69 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.label_img_after = self.findChild(QtWidgets.QLabel, "label_img_after")
 
 
-
-
-
-
-
-        """
-        self.button_copy = self.findChild(QtWidgets.QPushButton, 'pushButton_2')
-        self.button_copy.clicked.connect(self.pushButtonCopyPressed)
-
-        self.button_filebrowser = self.findChild(QtWidgets.QPushButton, 'pushButton_filebrowser')
-        self.button_filebrowser.clicked.connect(self.pushButtonFilebrowserPressed)
-
-        self.button_grab = self.findChild(QtWidgets.QPushButton, 'pushButton_grab')
-        self.button_grab.clicked.connect(self.pushButtonGrabPressed)
-
-        #Connect the label that displays the file name
-        self.label_filename = self.findChild(QtWidgets.QLabel, "label_filename")
-        self.label_filename.setText(FileName)
-        self.label_filename.setMargin(5)
-
-        #Connect the input text fields
-        self.input_name = self.findChild(QtWidgets.QLineEdit, 'lineEdit')
-
-        self.input_domain = self.findChild(QtWidgets.QLineEdit, 'lineEdit_2')
-
-        self.input_company = self.findChild(QtWidgets.QLineEdit, 'lineEdit_company')
-
-        self.input_function = self.findChild(QtWidgets.QLineEdit, 'lineEdit_function')
-
-        #Connect the text edit field that displays the result
-        self.result_window = self.findChild(QtWidgets.QTextEdit, "textEdit")
-
-        #Connect the combo box for the different modes
-        self.mode = self.findChild(QtWidgets.QComboBox, "comboBox")
-        self.mode.currentIndexChanged.connect(self.modeChanged)
-
-        #Connect the combo box for the different API-Keys
-        self.API_Key = self.findChild(QtWidgets.QComboBox, "comboBox_2")
-        self.API_Key.currentIndexChanged.connect(self.API_KeyChanged)
-        """
-
-
-
-
 #Define all the functions
 
+
+    def pushButton_label_facedetection_anwenden(self, event):
+        global facedection_type
+
+        if facedection_type == "Face Detection 1":
+            myFaceDetector1(image_before)
+
+
     def pushButton_label_filter_anwenden(self, event):
+        global filter_type
+        global coordinates
+        global boost
+        global image_before
+        global image_after
+        global array_before
+        global array_after
+
+        if filter_type == "blur":
+            image_after = applyBlur(self, image_before)
+
+        if filter_type == "Invert":
+            image_after = applyInvert(self, image_before)
+
+        #array_after = cv2.cvtColor(cv2.imread(image_after), cv2.COLOR_BGR2GRAY)
+
+        cv2.imwrite('edited_' + image_before[image_before.rfind("/") + 1:], array_after)
+
+        image_after = image_before[:image_before.rfind("/") + 1] + "edited_" + image_before[image_before.rfind("/") + 1:]
+
+        self.label_img_after.setPixmap(QPixmap(image_after))
+        self.label_img_after.setScaledContents(True)
+        self.label_img_after.setMaximumWidth(281)
+        self.label_img_after.setMaximumHeight(241)
+
         print("OK")
 
     def pushButton_label_similarity_aktualisieren(self, event):
         global result
-        result = 100
+        global similarity_type
+        global similarity_method
+        global image_before
+        global image_after
+        global array_before
+        global array_after
+
+        face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+
+
+
+        if similarity_method == "rms":
+            result = rms(array_before, array_after, similarity_type)
+
+        if similarity_method == "chebyshev":
+            result = chebyshev(array_before, array_after, similarity_type)
+
+        if similarity_method == "binary":
+            result = binary(array_before, array_after, similarity_type)
+
         self.label_result_display.setText("{}%".format(result))
+
+
         print("OK")
 
     def dropdown_type_changed(self):
@@ -136,65 +147,65 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         print(similarity_method)
 
     def dropdown_facedetection_changed(self):
+        global facedetection_type
         facedetection_type = self.dropdown_facedetection.currentText()
-        print(facedetection_type)
+
 
     def radioButton_blur_toggled(self):
+        global filter_type
         filter_type_blur = self.sender()
         if filter_type_blur.isChecked():
-            print("Filter Type: Blur")
+            filter_type = "blur"
 
     def radioButton_invert_toggled(self):
+        global filter_type
         filter_type_invert = self.sender()
         if filter_type_invert.isChecked():
-            print("Filter Type: Invert")
+            filter_type = "invert"
 
     def radioButton_preventfd_toggled(self):
+        global filter_type
         filter_type_preventfd = self.sender()
         if filter_type_preventfd.isChecked():
-            print("Filter Type: preventfd")
+            filter_type = "preventfd"
 
     def pushButton_label_loadimage(self, event):
         global image
-        self.FilePath = QtWidgets.QFileDialog.getOpenFileName(self, 'Select folder');
-        image = self.FilePath
-        image = image[0]
+        global image_before
+        global image_after
+        global FilePath
+
+
+        FilePath = QtWidgets.QFileDialog.getOpenFileName(self, 'Select folder');
+
+        image = FilePath
+        image_before = image[0]
+        image_after = image[0]
         #LastDashInImage = image.rfind("/")
         #image = image[LastDashInImage + 1:]
+        print(image_before)
 
-        im = Image.open(image)
-        size = 200,200
-        pixmap = QPixmap(im.thumbnail(size))
-
-        print(image)
-        """
-
-        size = 200,200
-        file, ext = os.path.splitext(image)
-        pixmap = Image.open(image)
-        pixmap = pixmap.thumbnail(size)
-        print(pixmap)
-
-        result = 100
-        self.label_result_display.setText("{}%".format(result))
-        
-        """
-
-        #pixmap = QPixmap(image)
-
-        self.label_img_before.setPixmap(pixmap)
+        self.label_img_before.setPixmap(QPixmap(image_before))
         self.label_img_before.setScaledContents(True)
         self.label_img_before.setMaximumWidth(281)
         self.label_img_before.setMaximumHeight(241)
 
-        self.label_img_after.setPixmap(pixmap)
+        print(image_before)
+
+        add = 50
+        m = Main("james_bond.jpg", 1)
+        m.load()
+
+        print(image_after)
+
+        self.label_img_after.setPixmap(QPixmap(image_after))
         self.label_img_after.setScaledContents(True)
         self.label_img_after.setMaximumWidth(281)
         self.label_img_after.setMaximumHeight(241)
 
 
-
         print(image)
+
 
 
 #Introduce all the global variables
@@ -204,20 +215,378 @@ image = None
 similarity_type = "Image"
 similarity_method = "rms"
 
-name_input = None
-domain_input = None
-result = None
-text = None
-history = []
-color = "green"
-access_key = "d33822ae1aaa9387c5355338c15aff5e"
-mail = None
+filter_type = "blur"
+
+
 FilePath = None
 FileName = "No File"
-Company = ""
-Function = ""
+
+coordinates = None
+boost = None
+
+image_before = None
+image_after = None
+
+array_before = None
+array_after = None
+
+facedection_type = None
+
+def convert(original, modified):
+
+    # if the image is color, convert to grayscale
+    if len(original.shape) == 3:
+        original = cv2.cvtColor(original, cv2.COLOR_BGR2GRAY)
+        modified = cv2.cvtColor(modified, cv2.COLOR_BGR2GRAY)
+
+    # convert to float
+    original = original.astype(np.float32)
+    modified = modified.astype(np.float32)
+
+    return original, modified
 
 
+def diffvector(original, modified, space):
+    global array_before
+    global array_after
+    global similarity_type
+
+    # calculate difference vector between original and
+    # modified image in chosen space
+    if similarity_type == "Image":
+        difference = array_before - array_after
+    elif similarity_type == "histogram":
+        hist_orig = cv2.calcHist([array_before], [0], None, [256], [0, 256])
+        hist_modif = cv2.calcHist([array_before], [0], None, [256], [0, 256])
+        difference = hist_orig - hist_modif
+    else:
+        difference = 0
+
+    return difference
+
+
+
+
+def rms(original, modified, space="image"):
+    global array_before
+    global array_after
+    global similarity_type
+
+    '''
+    this function calculates the rms error between two images
+    the error calculation can either be done in image space or in histogram space
+    output is scaled relative to the average input values
+    output can be interpreted as a measure how much information was changed globally
+    '''
+    # convert image to grayscale and float
+    array_before, array_after = convert(array_before, array_after)
+
+    # calculate difference vector
+    difference = diffvector(array_before, array_after, similarity_type)
+
+    # scale difference
+    if similarity_type == "Image":
+        scale = np.sum(array_before) / array_before.size
+        difference = difference / scale
+    if similarity_type == "histogram":
+        hist_orig = cv2.calcHist([array_before], [0], None, [256], [0, 256])
+        scale = np.sum(hist_orig) / hist_orig.size
+        difference = difference / scale
+
+    # calculate rootmeansquare difference
+    difference_squared = np.multiply(difference, difference)
+    rms_error = math.sqrt(np.sum(difference_squared)/difference_squared.size)
+
+    return rms_error
+
+def chebyshev(original, modified, space="image"):
+    global array_before
+    global array_after
+    global similarity_type
+
+    '''
+    this function calculates the maximal difference between two images
+    the calculation can be done either in image space or in histogram space
+    output is scaled relative to the input value
+    output can be interpreted as a measure how much information was changed locally
+    '''
+    # convert image to grayscale and float
+    array_before, array_after = convert(array_before, array_after)
+
+    # calculate difference vector
+    difference = abs(diffvector(array_before, array_after, similarity_type))
+
+    # calculate chebyshev distance and where it occurs
+    max_diff = np.amax(difference)
+    max_diff_ind = np.unravel_index(np.argmax(difference, axis=None), difference.shape)
+
+    # scale difference
+    if similarity_type == "Image":
+        scale = original[max_diff_ind]
+        chebyshev_error = max_diff / scale
+    if similarity_type == "Histogram":
+        hist_orig = cv2.calcHist([array_before], [0], None, [256], [0, 256])
+        scale = hist_orig[max_diff_ind]
+        chebyshev_error = max_diff / scale
+
+    return chebyshev_error
+
+def binary(original, modified, space="image"):
+
+    global array_before
+    global array_after
+    global similarity_type
+
+    '''
+    this function calculates the percentage of pixels that have changed
+    the calculation can be done either in image space or in histogram space
+    output can be interpreted as a measure of how homogenous/inhomogenous
+    the image changes are.
+    output close to 1 means homogenous, close to 0 means inhomogenous
+    '''
+    # convert image to grayscale and float
+    array_before, array_after = convert(array_before, array_after)
+
+    # calculate difference vector
+    difference = diffvector(array_before, array_after, similarity_type)
+
+    # calculate number of altered pixels
+    nonzeros = np.count_nonzero(difference)
+
+    return nonzeros / difference.size
+
+class Main(object):
+    def __init__(self, imgName, boost):
+        self.boost = boost
+        #self.filter = filter.Filter()
+        self.img_name = imgName
+
+    def load(self):
+        global FilePath
+        global image_before
+        global image_after
+        global array_before
+        global array_after
+        global coordinates
+        # Load the cascade
+        face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+
+
+        # Read the input image
+        # img_name = sys.argv[1]
+        img = cv2.imread(self.img_name)
+        #img = cv2.cvtColor(cv2.imread(self.img_name), cv2.COLOR_BGR2GRAY)
+
+
+
+        # Detect faces
+        faces = face_cascade.detectMultiScale(img, 1.1, 4)
+        coordinates = faces
+        # blur defined areas in a picture
+        #blured = apply(self, img)
+
+        """
+        for (x, y, w, h) in faces:
+            # Method: apply() from class: Filter
+            blured = applyBlur(img, [x, y, w, h], [self.boost, self.boost])
+        # Convert into grayscale
+        
+        """
+
+        # Detect faces
+        faces = face_cascade.detectMultiScale(img, 1.1, 4)
+
+        # Draw rectangle around the faces
+        for (x, y, w, h) in faces:
+            cv2.rectangle(img, (x, y), (x + w, y + h), (255, 0, 0), 2)
+
+        # Display the output
+
+        cv2.imwrite('edited_' + self.img_name, img)
+
+
+        image_after = image_before[:image_before.rfind("/")+1] + "edited_" + self.img_name
+
+        array_before = cv2.cvtColor(cv2.imread(image_before), cv2.COLOR_BGR2GRAY)
+        array_after = cv2.cvtColor(cv2.imread(image_after), cv2.COLOR_BGR2GRAY)
+
+        cv2.waitKey()
+
+    # Zusätzliche Methoden
+    def moreMethods(self):
+        print("Name der Methode muss geändert werden")
+
+
+
+def applyBlur(self, image):
+    '''
+    Applies a blur filter to the specified image areas
+    :param image: complet image
+    :param coordinates: areas to be blurred
+    :param boost: intensity of the blurdness
+    :return: new image with the blured areas
+    '''
+
+    global coordinates
+    global boost
+    global image_before
+    global image_after
+    global array_before
+    global array_after
+    global coordinates
+
+    # self.optimum(image)
+    image_after = image_before
+    x = coordinates[0]
+    y = coordinates[1]
+    w = coordinates[2]
+    h = coordinates[3]
+    crop_img = np.array(array_before)[y:y + h, x:x + w]
+    # blur_img = self.applyInvert(crop_img, 0)
+    # blur_img = self.shiftPixels(crop_img)
+    # blur_img = cv2.blur(crop_img, (15, 15))
+    # blur_img = self.applyPreventFD(crop_img)
+    blur_img = self.beat_Filter(crop_img)
+    image_after[y:y + h, x:x + w] = blur_img
+    return image_after
+
+def applyInvert(self, image):
+    global image_before
+    global image_after
+    global array_before
+    global array_after
+
+    dunkel = 100
+    hell = 180
+    array_after = array_before
+    for i in range(1, array_before.shape[0]):
+        for j in range(1, array_before.shape[1]):
+            if i % 1 == 0 and j % 1 == 0:
+                if int(array_before[i, j]) > hell and int(array_before[i, j]) > hell and \
+                        int(array_before[i, j]) > hell:
+                    array_after[i, j] = 141
+                if int(array_before[i, j]) < dunkel and int(array_before[i, j]) < dunkel and \
+                        int(array_before[i, j]) < dunkel:
+                    array_after[i, j] = 255
+            j += 1
+        i += 1
+    return array_before
+
+
+
+def beat_Filter(self, image, dunkel=90, hell=200):
+    dunkel = dunkel
+    hell = hell
+    levelBlack = 285
+    levelWhite = 235
+    newImage = image
+    for i in range(1, image.shape[0] - 1):
+        for j in range(1, image.shape[1] - 1):
+            if i % 1 == 0 and j % 1 == 0:
+                currPix = newImage[i, j]
+                if currPix > hell:
+                    newImage[i, j] = levelBlack - currPix
+                    continue
+                if int(image[i, j]) < dunkel:
+                    newImage[i, j] = levelWhite - currPix
+            j += 1
+        i += 1
+    return image
+
+
+
+
+
+
+class myFaceDetector1(object):
+    def __init__(self, imgName, boost):
+        self.img_name = imgName
+        self.boost = boost
+        self.filter = filter.Filter()
+
+    def load(self):
+        #load the trained flies for detecting the face and eyes
+        face_cascade = cv2.CascadeClassifier( 'haarcascade_frontalface_default.xml')
+        eye_cascade = cv2.CascadeClassifier('haarcascade_eye.xml')
+
+        #reading the image
+        img = cv2.imread(self.img_name)
+        #Convert image into grayscale
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+        faces = face_cascade.detectMultiScale(img, 1.1, 4)
+        # blur defined areas in a picture
+        for (x, y, w, h) in faces:
+            # Method: apply() from class: Filter
+           gray = self.filter.apply(img, [x, y, w, h], [self.boost, self.boost])
+
+        """Eye Detector in Face Detector"""
+        #face detection
+        faces = face_cascade.detectMultiScale(gray, 1.1, 4)
+        #Draw rectangle around the faces
+        for (x, y, w, h) in faces:
+            cv2.rectangle(img, (x, y), (x + w, y + h), (255, 0, 0), 2)
+            roi_gray = gray[y:y + h, x:x + w]
+            roi_color = img[y:y + h, x:x + w]
+
+            #eye detection
+            eyes = eye_cascade.detectMultiScale(roi_gray)
+            #Draw rectangle around the eyes
+            for (ex, ey, ew, eh) in eyes:
+                cv2.rectangle(roi_color, (ex, ey), (ex + ew, ey + eh), (0, 255, 0), 2)
+
+        #Display the image on the window
+        cv2.imwrite('edited_' + self.img_name, img)
+        cv2.imshow('img', img)
+
+        # Print error
+        print(calc_diff.rms(cv2.imread(self.img_name), img))
+        cv2.waitKey()
+
+class myFaceDetector2(object):
+    def __init__(self, imgName, boost):
+        self.img_name = imgName
+        self.boost = boost
+        self.filter = filter.Filter()
+
+    def load(self):
+        #Built-in function to read the xml-files and load the trained flies for detecting the face and eyes
+        face_cascade = cv2.CascadeClassifier( 'haarcascade_frontalface_default.xml')
+        eye_cascade = cv2.CascadeClassifier('haarcascade_eye.xml')
+
+        #reading the image
+        img = cv2.imread(self.img_name)
+        #Convert image into grayscale
+        #Its easier to detect a face in grayscale
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+        faces = face_cascade.detectMultiScale(img, 1.1, 4)
+        # blur defined areas in a picture
+        for (x, y, w, h) in faces:
+            # Method: apply() from class: Filter
+            gray = self.filter.apply(img, [x, y, w, h], [self.boost, self.boost])
+
+        #face detection
+        faces = face_cascade.detectMultiScale(gray, 1.1, 4)
+        #Draw rectangle around the faces --> x= starting point at xlim, y= starting point at ylim, w= width, h= height
+        for (x, y, w, h) in faces:
+            cv2.rectangle(img, (x, y), (x + w, y + h), (255, 0, 0), 2)
+
+        #eye detection
+        eyes = eye_cascade.detectMultiScale(gray, 1.1, 4)
+        #Draw rectangle around the eyes, only if eye are in the face area
+        for (ex, ey, ew, eh) in eyes:
+            if (ex + ew) < (x + w) and (ey + eh) < (y + h):
+                cv2.rectangle(img, (ex, ey), (ex + ew, ey + eh), (0, 255, 0), 2)
+            else: print("eye not in face area detected")
+
+        #Display the image on the window
+        cv2.imwrite('edited_' + self.img_name, img)
+        cv2.imshow('img', img)
+
+        # Print error
+        print(calc_diff.rms(cv2.imread(self.img_name), img))
+        cv2.waitKey()
 
 #Display QT Window
 app = QtWidgets.QApplication(sys.argv)

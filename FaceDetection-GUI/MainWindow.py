@@ -179,6 +179,25 @@ class Ui_MainWindow(object):
 "color: black;\n"
 "}\n"
 "\n"
+"#label_facedetection_anwenden{\n"
+"background:rgba(137,136,191,250);\n"
+"border-radius:3px;\n"
+"color: white;\n"
+"}\n"
+"\n"
+"#label_facedetection_anwenden:hover{\n"
+"background:white;\n"
+"border-radius:3px;\n"
+"border-style:solid;\n"
+"border-width:1.5px;\n"
+"border-color:rgba(137,136,191,250);\n"
+"color: black;\n"
+"}\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"\n"
 "#label_filter_loadimage{\n"
 "background:#03013A;\n"
 "border-radius:5px;\n"
@@ -455,6 +474,13 @@ class Ui_MainWindow(object):
         self.comboBox_facedetection.addItem("")
         self.comboBox_facedetection.addItem("")
         self.comboBox_facedetection.addItem("")
+        self.label_facedetection_anwenden = QtWidgets.QLabel(self.frame_facedetection)
+        self.label_facedetection_anwenden.setGeometry(QtCore.QRect(10, 140, 221, 23))
+        font = QtGui.QFont()
+        font.setPointSize(11)
+        self.label_facedetection_anwenden.setFont(font)
+        self.label_facedetection_anwenden.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_facedetection_anwenden.setObjectName("label_facedetection_anwenden")
         self.label_filter_loadimage = QtWidgets.QLabel(self.frame)
         self.label_filter_loadimage.setGeometry(QtCore.QRect(305, 370, 151, 31))
         font = QtGui.QFont()
@@ -503,14 +529,14 @@ class Ui_MainWindow(object):
         self.label_title_before.setText(_translate("MainWindow", "Before"))
         self.label_title_after.setText(_translate("MainWindow", "After"))
         self.comboBox_method.setItemText(0, _translate("MainWindow", "rms"))
-        self.comboBox_method.setItemText(1, _translate("MainWindow", "max-norm"))
+        self.comboBox_method.setItemText(1, _translate("MainWindow", "chebyshev"))
         self.comboBox_method.setItemText(2, _translate("MainWindow", "binary"))
         self.label_choose_filter.setText(_translate("MainWindow", "Method:"))
         self.label_result.setText(_translate("MainWindow", "Result:"))
         self.label_aktualisieren.setText(_translate("MainWindow", "Aktualisieren"))
         self.label_choose_filetype.setText(_translate("MainWindow", "Type:"))
         self.comboBox_filetype.setItemText(0, _translate("MainWindow", "Image"))
-        self.comboBox_filetype.setItemText(1, _translate("MainWindow", "Diagram"))
+        self.comboBox_filetype.setItemText(1, _translate("MainWindow", "Histogram"))
         self.label_title_similarity.setText(_translate("MainWindow", "Similarity"))
         self.label_filter_anwenden.setText(_translate("MainWindow", "Anwenden"))
         self.label_title_filter.setText(_translate("MainWindow", "Filter"))
@@ -522,6 +548,7 @@ class Ui_MainWindow(object):
         self.comboBox_facedetection.setItemText(0, _translate("MainWindow", "Face Detection 1"))
         self.comboBox_facedetection.setItemText(1, _translate("MainWindow", "Face Detection 2"))
         self.comboBox_facedetection.setItemText(2, _translate("MainWindow", "Face Detection 3"))
+        self.label_facedetection_anwenden.setText(_translate("MainWindow", "Anwenden"))
         self.label_filter_loadimage.setText(_translate("MainWindow", "Load Image"))
 
 import GUI_Ressources_rc
