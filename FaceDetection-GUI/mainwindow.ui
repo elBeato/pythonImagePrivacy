@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>802</width>
-    <height>728</height>
+    <width>761</width>
+    <height>671</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,35 +19,35 @@ background:white;
 }
 
 #frame{
-background:rgba(255,255,255,200);
-border-radius:25px;
+background:white;
+border-radius:12px;
 border-style:solid;
 border-width: 1px;
 border-color:black;
 }
 
 #frame_similarity{
-background:white;
+background:rgba(27,27,27,20);
 border-radius:10px;
 border-style:solid;
 border-width: 1px;
-border-color:black;
+border-color:white;
 }
 
 #frame_filter{
-background:white;
+background:rgba(27,27,27,20);
 border-radius:10px;
 border-style:solid;
 border-width: 1px;
-border-color:black;
+border-color:white;
 }
 
 #frame_facedetection{
-background:white;
+background:rgba(27,27,27,20);
 border-radius:10px;
 border-style:solid;
 border-width: 1px;
-border-color:black;
+border-color:white;
 }
 
 
@@ -69,7 +69,7 @@ border-radius:13px;
 background:rgba(137,136,191,250);
 color: white;
 vertical-align: middle;
-border-radius:5px;
+border-radius:2px;
 padding-left: 10 px;
 }
 
@@ -78,7 +78,7 @@ padding-left: 10 px;
 background:rgba(137,136,191,250);
 color: white;
 vertical-align: middle;
-border-radius:5px;
+border-radius:2px;
 padding-right: 10 px;
 }
 
@@ -103,51 +103,63 @@ vertical-align: middle;
 border-radius:3px;
 }
 
-QWidget{
-background:url(:/GUI_Ressources/image_background3.png);
-}
+
+
+
+
 
 #label_choose_filetype{
-background:rgba(27,27,27,30);
+background:white;
 border-radius:3px;
+border-style:solid;
+border-width:1px;
+border-color:black;
 color: black;
 padding-left: 3px;
 }
 
 
 #label_choose_filter{
-background:rgba(27,27,27,30);
+background:white;
 border-radius:3px;
+border-style:solid;
+border-width:1px;
+border-color:black;
 color: black;
 padding-left: 3px;
 }
 
 
 #label_choose_facedetection{
-background:rgba(27,27,27,30);
+background:white;
 border-radius:3px;
-color: black;
-border-color:black;
+border-style:solid;
 border-width:1px;
+border-color:black;
+color: black;
 padding-left: 3px;
 }
 
 
 #label_result{
-background:rgba(27,27,27,30);
+background:white;
 border-radius:3px;
+border-style:solid;
+border-width:1px;
+border-color:black;
 color: black;
 padding-left: 3px;
 }
 
 
 #label_result_display{
-background:transparent;
-border-style:solid;
-border-width:1.2px;
-border-color:rgba(27,27,27,100);
+background:white;
 border-radius:3px;
+border-style:solid;
+border-width:1px;
+border-color:black;
 color: black;
+padding-left: 3px;
 }
 
 
@@ -232,7 +244,7 @@ color: white;
 
 
 #label_img_before{
-background:white;
+background:rgba(27,27,27,10);
 border-style:solid;
 border-color:black;
 border-width:3px;
@@ -240,7 +252,7 @@ border-width:3px;
 
 
 #label_img_after{
-background:white;
+background:rgba(27,27,27,10);
 border-style:solid;
 border-color:black;
 border-width:3px;
@@ -262,7 +274,7 @@ color:green;
 }
 
 QRadioButton{
-background: rgba(27,27,27,30);
+background: white;
 border-style:solid;
 border-width:0.5 px;
 border-color:grey;
@@ -274,8 +286,8 @@ border-color:grey;
    <widget class="QFrame" name="frame">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>10</y>
+      <x>0</x>
+      <y>0</y>
       <width>761</width>
       <height>621</height>
      </rect>
@@ -318,16 +330,13 @@ border-color:grey;
      <property name="geometry">
       <rect>
        <x>53</x>
-       <y>110</y>
+       <y>100</y>
        <width>281</width>
        <height>241</height>
       </rect>
      </property>
      <property name="text">
       <string/>
-     </property>
-     <property name="pixmap">
-      <pixmap resource="GUI_Ressources.qrc">:/GUI_Ressources/image_test_before.png</pixmap>
      </property>
      <property name="scaledContents">
       <bool>true</bool>
@@ -340,16 +349,13 @@ border-color:grey;
      <property name="geometry">
       <rect>
        <x>420</x>
-       <y>110</y>
+       <y>100</y>
        <width>281</width>
        <height>241</height>
       </rect>
      </property>
      <property name="text">
       <string/>
-     </property>
-     <property name="pixmap">
-      <pixmap resource="GUI_Ressources.qrc">:/GUI_Ressources/image_test_after.png</pixmap>
      </property>
      <property name="scaledContents">
       <bool>true</bool>
@@ -361,8 +367,8 @@ border-color:grey;
     <widget class="QLabel" name="label_title_before">
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>100</y>
+       <x>40</x>
+       <y>340</y>
        <width>191</width>
        <height>21</height>
       </rect>
@@ -386,8 +392,8 @@ border-color:grey;
     <widget class="QLabel" name="label_title_after">
      <property name="geometry">
       <rect>
-       <x>540</x>
-       <y>100</y>
+       <x>520</x>
+       <y>340</y>
        <width>191</width>
        <height>21</height>
       </rect>
@@ -956,7 +962,7 @@ border-color:grey;
       <rect>
        <x>40</x>
        <y>385</y>
-       <width>649</width>
+       <width>671</width>
        <height>2</height>
       </rect>
      </property>
@@ -994,7 +1000,7 @@ border-color:grey;
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>802</width>
+     <width>761</width>
      <height>22</height>
     </rect>
    </property>

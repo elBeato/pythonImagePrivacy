@@ -11,41 +11,41 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(802, 728)
+        MainWindow.resize(761, 671)
         MainWindow.setStyleSheet("#label_logo{\n"
 "background:white;\n"
 "}\n"
 "\n"
 "#frame{\n"
-"background:rgba(255,255,255,200);\n"
-"border-radius:25px;\n"
+"background:white;\n"
+"border-radius:12px;\n"
 "border-style:solid;\n"
 "border-width: 1px;\n"
 "border-color:black;\n"
 "}\n"
 "\n"
 "#frame_similarity{\n"
-"background:white;\n"
+"background:rgba(27,27,27,20);\n"
 "border-radius:10px;\n"
 "border-style:solid;\n"
 "border-width: 1px;\n"
-"border-color:black;\n"
+"border-color:white;\n"
 "}\n"
 "\n"
 "#frame_filter{\n"
-"background:white;\n"
+"background:rgba(27,27,27,20);\n"
 "border-radius:10px;\n"
 "border-style:solid;\n"
 "border-width: 1px;\n"
-"border-color:black;\n"
+"border-color:white;\n"
 "}\n"
 "\n"
 "#frame_facedetection{\n"
-"background:white;\n"
+"background:rgba(27,27,27,20);\n"
 "border-radius:10px;\n"
 "border-style:solid;\n"
 "border-width: 1px;\n"
-"border-color:black;\n"
+"border-color:white;\n"
 "}\n"
 "\n"
 "\n"
@@ -67,7 +67,7 @@ class Ui_MainWindow(object):
 "background:rgba(137,136,191,250);\n"
 "color: white;\n"
 "vertical-align: middle;\n"
-"border-radius:5px;\n"
+"border-radius:2px;\n"
 "padding-left: 10 px;\n"
 "}\n"
 "\n"
@@ -76,7 +76,7 @@ class Ui_MainWindow(object):
 "background:rgba(137,136,191,250);\n"
 "color: white;\n"
 "vertical-align: middle;\n"
-"border-radius:5px;\n"
+"border-radius:2px;\n"
 "padding-right: 10 px;\n"
 "}\n"
 "\n"
@@ -101,51 +101,63 @@ class Ui_MainWindow(object):
 "border-radius:3px;\n"
 "}\n"
 "\n"
-"QWidget{\n"
-"background:url(:/GUI_Ressources/image_background3.png);\n"
-"}\n"
+"\n"
+"\n"
+"\n"
+"\n"
 "\n"
 "#label_choose_filetype{\n"
-"background:rgba(27,27,27,30);\n"
+"background:white;\n"
 "border-radius:3px;\n"
+"border-style:solid;\n"
+"border-width:1px;\n"
+"border-color:black;\n"
 "color: black;\n"
 "padding-left: 3px;\n"
 "}\n"
 "\n"
 "\n"
 "#label_choose_filter{\n"
-"background:rgba(27,27,27,30);\n"
+"background:white;\n"
 "border-radius:3px;\n"
+"border-style:solid;\n"
+"border-width:1px;\n"
+"border-color:black;\n"
 "color: black;\n"
 "padding-left: 3px;\n"
 "}\n"
 "\n"
 "\n"
 "#label_choose_facedetection{\n"
-"background:rgba(27,27,27,30);\n"
+"background:white;\n"
 "border-radius:3px;\n"
-"color: black;\n"
-"border-color:black;\n"
+"border-style:solid;\n"
 "border-width:1px;\n"
+"border-color:black;\n"
+"color: black;\n"
 "padding-left: 3px;\n"
 "}\n"
 "\n"
 "\n"
 "#label_result{\n"
-"background:rgba(27,27,27,30);\n"
+"background:white;\n"
 "border-radius:3px;\n"
+"border-style:solid;\n"
+"border-width:1px;\n"
+"border-color:black;\n"
 "color: black;\n"
 "padding-left: 3px;\n"
 "}\n"
 "\n"
 "\n"
 "#label_result_display{\n"
-"background:transparent;\n"
-"border-style:solid;\n"
-"border-width:1.2px;\n"
-"border-color:rgba(27,27,27,100);\n"
+"background:white;\n"
 "border-radius:3px;\n"
+"border-style:solid;\n"
+"border-width:1px;\n"
+"border-color:black;\n"
 "color: black;\n"
+"padding-left: 3px;\n"
 "}\n"
 "\n"
 "\n"
@@ -230,7 +242,7 @@ class Ui_MainWindow(object):
 "\n"
 "\n"
 "#label_img_before{\n"
-"background:white;\n"
+"background:rgba(27,27,27,10);\n"
 "border-style:solid;\n"
 "border-color:black;\n"
 "border-width:3px;\n"
@@ -238,7 +250,7 @@ class Ui_MainWindow(object):
 "\n"
 "\n"
 "#label_img_after{\n"
-"background:white;\n"
+"background:rgba(27,27,27,10);\n"
 "border-style:solid;\n"
 "border-color:black;\n"
 "border-width:3px;\n"
@@ -260,7 +272,7 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "QRadioButton{\n"
-"background: rgba(27,27,27,30);\n"
+"background: white;\n"
 "border-style:solid;\n"
 "border-width:0.5 px;\n"
 "border-color:grey;\n"
@@ -270,7 +282,7 @@ class Ui_MainWindow(object):
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.frame = QtWidgets.QFrame(self.centralwidget)
-        self.frame.setGeometry(QtCore.QRect(20, 10, 761, 621))
+        self.frame.setGeometry(QtCore.QRect(0, 0, 761, 621))
         self.frame.setStyleSheet("")
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -285,21 +297,19 @@ class Ui_MainWindow(object):
         self.label_line_1.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.label_line_1.setObjectName("label_line_1")
         self.label_img_before = QtWidgets.QLabel(self.frame)
-        self.label_img_before.setGeometry(QtCore.QRect(53, 110, 281, 241))
+        self.label_img_before.setGeometry(QtCore.QRect(53, 100, 281, 241))
         self.label_img_before.setText("")
-        self.label_img_before.setPixmap(QtGui.QPixmap(":/GUI_Ressources/image_test_before.png"))
         self.label_img_before.setScaledContents(True)
         self.label_img_before.setAlignment(QtCore.Qt.AlignCenter)
         self.label_img_before.setObjectName("label_img_before")
         self.label_img_after = QtWidgets.QLabel(self.frame)
-        self.label_img_after.setGeometry(QtCore.QRect(420, 110, 281, 241))
+        self.label_img_after.setGeometry(QtCore.QRect(420, 100, 281, 241))
         self.label_img_after.setText("")
-        self.label_img_after.setPixmap(QtGui.QPixmap(":/GUI_Ressources/image_test_after.png"))
         self.label_img_after.setScaledContents(True)
         self.label_img_after.setAlignment(QtCore.Qt.AlignCenter)
         self.label_img_after.setObjectName("label_img_after")
         self.label_title_before = QtWidgets.QLabel(self.frame)
-        self.label_title_before.setGeometry(QtCore.QRect(30, 100, 191, 21))
+        self.label_title_before.setGeometry(QtCore.QRect(40, 340, 191, 21))
         font = QtGui.QFont()
         font.setFamily(".AppleSystemUIFont")
         font.setPointSize(12)
@@ -307,7 +317,7 @@ class Ui_MainWindow(object):
         self.label_title_before.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.label_title_before.setObjectName("label_title_before")
         self.label_title_after = QtWidgets.QLabel(self.frame)
-        self.label_title_after.setGeometry(QtCore.QRect(540, 100, 191, 21))
+        self.label_title_after.setGeometry(QtCore.QRect(520, 340, 191, 21))
         font = QtGui.QFont()
         font.setFamily(".AppleSystemUIFont")
         font.setPointSize(12)
@@ -489,7 +499,7 @@ class Ui_MainWindow(object):
         self.label_filter_loadimage.setAlignment(QtCore.Qt.AlignCenter)
         self.label_filter_loadimage.setObjectName("label_filter_loadimage")
         self.label_line_2 = QtWidgets.QLabel(self.frame)
-        self.label_line_2.setGeometry(QtCore.QRect(40, 385, 649, 2))
+        self.label_line_2.setGeometry(QtCore.QRect(40, 385, 671, 2))
         font = QtGui.QFont()
         font.setFamily(".Farah PUA")
         font.setPointSize(28)
@@ -510,7 +520,7 @@ class Ui_MainWindow(object):
         self.label_filter_loadimage.raise_()
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 802, 22))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 761, 22))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)

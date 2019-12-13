@@ -13,8 +13,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/FaceDetection_Complete.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="217">
-              <caret line="386" lean-forward="true" selection-start-line="386" selection-end-line="386" />
+            <state relative-caret-position="215">
+              <caret line="539" column="18" lean-forward="true" selection-start-line="539" selection-start-column="18" selection-end-line="539" selection-end-column="18" />
               <folding>
                 <element signature="e#337#347#0" expanded="true" />
               </folding>
@@ -43,6 +43,17 @@
       <find>img_name</find>
       <find>self.img_name</find>
       <find>array</find>
+      <find>similar</find>
+      <find>similarity_method</find>
+      <find>chebyshev</find>
+      <find>img</find>
+      <find>apply</find>
+      <find>applyblur</find>
+      <find>FileName</find>
+      <find>beat</find>
+      <find>dropdown_facedetection_changed</find>
+      <find>dropdown_facedetection</find>
+      <find>print</find>
     </findStrings>
   </component>
   <component name="IdeDocumentHistory">
@@ -53,7 +64,7 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="136" />
+    <option name="x" value="30" />
     <option name="y" value="23" />
     <option name="width" value="1280" />
     <option name="height" value="799" />
@@ -63,6 +74,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -83,7 +95,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -151,12 +162,13 @@
       <updated>1575903419553</updated>
       <workItem from="1575903424267" duration="43000" />
       <workItem from="1575903486377" duration="6771000" />
-      <workItem from="1575962080107" duration="14145000" />
+      <workItem from="1575962080107" duration="14320000" />
+      <workItem from="1576241627607" duration="6069000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="20959000" />
+    <option name="totallyTimeSpent" value="27203000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -168,10 +180,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="136" y="23" width="1280" height="799" extended-state="0" />
+    <frame x="30" y="23" width="1280" height="799" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25767368" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26171243" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -198,13 +210,13 @@
     <option name="version" value="1" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/FaceDetection_GUI$FaceDetection_Complete.coverage" NAME="FaceDetection_Complete Coverage Results" MODIFIED="1576060016956" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/FaceDetection_GUI$FaceDetection_Complete.coverage" NAME="FaceDetection_Complete Coverage Results" MODIFIED="1576250672743" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/FaceDetection_Complete.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
-          <caret line="386" lean-forward="true" selection-start-line="386" selection-end-line="386" />
+        <state relative-caret-position="215">
+          <caret line="539" column="18" lean-forward="true" selection-start-line="539" selection-start-column="18" selection-end-line="539" selection-end-column="18" />
           <folding>
             <element signature="e#337#347#0" expanded="true" />
           </folding>
