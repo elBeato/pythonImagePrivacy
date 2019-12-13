@@ -170,6 +170,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         global image_before
         global image_after
         global FilePath
+        global img
 
 
         FilePath = QtWidgets.QFileDialog.getOpenFileName(self, 'Select folder');
@@ -179,6 +180,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         image_after = image[0]
         LastDashInImage = image_before.rfind("/")
         image = image_before[LastDashInImage + 1:]
+
+        img = image_before
 
         self.label_img_before.setPixmap(QPixmap(image_before))
         self.label_img_before.setScaledContents(True)
@@ -343,19 +346,25 @@ class Main(object):
 
     def load(self):
         global FilePath
+        global FileName
         global image_before
         global image_after
         global array_before
         global array_after
         global coordinates
-        global img
 
         # Load the cascade
         face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 
+        print(image_before)
+
         # Read the input image
         # img_name = sys.argv[1]
-        img = cv2.imread(self.img_name)
+        print(self.img_name)
+        img = cv2.imread(image_before)
+
+        print("Test")
+        print(img)
         #img = cv2.cvtColor(cv2.imread(self.img_name), cv2.COLOR_BGR2GRAY)
 
         # Detect faces
@@ -375,9 +384,11 @@ class Main(object):
 
         image_after = image_before[:image_before.rfind("/")+1] + "edited_" + self.img_name
 
+
+        """
         array_before = cv2.cvtColor(cv2.imread(image_before), cv2.COLOR_BGR2GRAY)
         array_after = cv2.cvtColor(cv2.imread(image_after), cv2.COLOR_BGR2GRAY)
-
+        """
         cv2.waitKey()
 
 def applyBlur(image):
