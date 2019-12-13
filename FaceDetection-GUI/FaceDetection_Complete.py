@@ -70,7 +70,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.label_img_after = self.findChild(QtWidgets.QLabel, "label_img_after")
 
 
-#Define all the functions
+# Define all the functions
 
     def pushButton_label_facedetection_anwenden(self, event):
         global facedection_type
@@ -391,13 +391,13 @@ class Main(object):
         """
         cv2.waitKey()
 
+
 def applyBlur(image):
     '''
-    Applies a blur filter to the specified image areas
-    :param image: complet image
-    :param coordinates: areas to be blurred
-    :param boost: intensity of the blurdness
-    :return: new image with the blured areas
+    Main Function: Out of this function will be all the main filter functions.
+    Applies a blur filter to the specified image areas, you can choose 4 different filters,
+    :param gray scaled image
+    :return: image with the blured face
     '''
 
     global coordinates
@@ -415,46 +415,115 @@ def applyBlur(image):
     w = coordinates[0][2]
     h = coordinates[0][3]
 
-
     crop_img = image[y:y + h, x:x + w]
     # blur_img = self.applyInvert(crop_img, 0)
     # blur_img = self.shiftPixels(crop_img)
     # blur_img = cv2.blur(crop_img, (15, 15))
     # blur_img = self.applyPreventFD(crop_img)
-    #crop_img = cv2.cvtColor(crop_img, cv2.COLOR_BGR2GRAY)
+    # crop_img = cv2.cvtColor(crop_img, cv2.COLOR_BGR2GRAY)
     a, b, c = cv2.split(crop_img)
 
-    a = beat_Filter(a)
-    b = beat_Filter(b)
-    c = beat_Filter(c)
+    a = grayFilterChanger(a)
+    b = grayFilterChanger(b)
+    c = grayFilterChanger(c)
 
-    crop_img = cv2.merge((a,b,c))
+    crop_img = cv2.merge((a, b, c))
 
-
-    #blur_img = beat_Filter(crop_img)
+    # blur_img = grayFilterChanger(crop_img)
     new_image[y:y + h, x:x + w] = crop_img
 
     return new_image
 
 
-def beat_Filter(image, dunkel=90, hell=200):
-    dunkel = dunkel
-    hell = hell
-    levelBlack = 285
-    levelWhite = 235
-    newImage = image
-    for i in range(1, image.shape[0] - 1):
-        for j in range(1, image.shape[1] - 1):
+def applyInvert(faces):
+    '''
+    Simple filter, which change all values darker or brighter a benchmark to a dark or bright ton. 
+    :param faces: gray faces
+    :return: filtered image only the faces
+    '''
+    dark = 100
+    bright = 180
+    newFace = faces
+    for i in range(1, image.shape[0]):
+        for j in range(1, image.shape[1]):
+            'possible to choose only every second pixel'
             if i % 1 == 0 and j % 1 == 0:
-                currPix = newImage[i, j]
-                if currPix > hell:
-                    newImage[i, j] = levelBlack - currPix
-                    continue
-                if int(image[i, j]) < dunkel:
-                    newImage[i, j] = levelWhite - currPix
+                if int(faces[i, j]) > bright:
+                    newFace[i, j] = 141
+                if int(faces[i, j]) < dark:
+                    newFace[i, j] = 255
             j += 1
         i += 1
     return image
+
+
+def grayFilterChanger(faces, dark=90, bright=200):
+    '''
+    Changing the brighter parts of the picture to the mirrored part on the dark side and the same for the
+    darker parts.
+    :param faces: Gray scaled faces
+    :param dark: All pixel darker then this value will mirrored to the bright side
+    :param bright: All pixel brighter then his value will mirrored to the dark side
+    :return:
+    '''
+    dark = dark
+    bright = bright
+    levelBlack = 285
+    levelWhite = 235
+    newFace = faces
+    for i in range(1, faces.shape[0] - 1):
+        for j in range(1, faces.shape[1] - 1):
+            if i % 1 == 0 and j % 1 == 0:
+                'Changing the brighter parts to dark'
+                currPix = newFace[i, j]
+                if currPix > bright:
+                    newFace[i, j] = levelBlack - currPix
+                    continue
+                'Changing the darker parts to bright'
+                if currPix < dark:
+                    newFace[i, j] = levelWhite - currPix
+            j += 1
+        i += 1
+    return newFace
+
+
+def applyPreventFD(faces, base=30, diff=50):
+    '''
+    Gaussian filter, also possible in coloured
+    :param faces: only the faces
+    :param base: intensitiy
+    :param diff: standard deviation
+    :return: image of the face with noise
+    '''
+    try:
+        row, col, ch = faces.shape
+    except:
+        row, col = faces.shape
+    ch = 1
+    noisy = np.zeros((row, col, ch), np.uint8)
+    gauss = np.random.normal(base, diff, (row, col, ch))
+    gauss = gauss.reshape(row, col, ch)
+    gauss = cv2.convertScaleAbs(gauss)
+    noisy = cv2.add(faces, gauss)
+    noisy = faces + gauss
+    return noisy
+
+
+def shiftPixels(crop_img):
+    '''
+    Simple shift of pixel to black
+    :param crop_img: face
+    :return: face with doted pixel
+    '''
+    diagonal = 0
+    for i in range(1, crop_img.shape[0]):
+        for j in range(1, crop_img.shape[1]):
+            if j % 2 == 0 and i % 2 == 0:       # diagonal < j for triangle
+                crop_img[i, j] = 0
+            j += 1
+        i += 1
+        diagonal += 1
+    return crop_img
 
 
 class myFaceDetector1(object):
@@ -501,6 +570,7 @@ class myFaceDetector1(object):
         # Print error
         print(calc_diff.rms(cv2.imread(self.img_name), img))
         cv2.waitKey()
+
 
 class myFaceDetector2(object):
     def __init__(self, imgName, boost):
