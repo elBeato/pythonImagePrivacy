@@ -11,5 +11,9 @@ Task 4: Urs & Kim
 Task 3 ist nicht zwingend nötig, Task 6 kann den ersetzen.
 
 ******************************************************************
-Programm starkpunkt im File: FaceDetection_Complete.py
+Programm starting point im File: FaceDetection_Complete.py
+******************************************************************
+
+******************************************************************
+2. Programm for filters starting point im File: GUIelBeato.py
 ******************************************************************
