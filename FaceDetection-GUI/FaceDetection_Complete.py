@@ -40,7 +40,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.button_facedetection_anwenden = self.findChild(QtWidgets.QLabel, 'label_facedetection_anwenden')
         self.button_facedetection_anwenden.mousePressEvent = self.pushButton_label_facedetection_anwenden
 
-
         self.dropdown_type = self.findChild(QtWidgets.QComboBox, "comboBox_filetype")
         self.dropdown_type.currentIndexChanged.connect(self.dropdown_type_changed)
 

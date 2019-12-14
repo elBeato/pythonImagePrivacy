@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 
-class Filter:
+class Filter(object):
     # Flask:
     # Methoden
     # cv.filte2D(RGB_img, -1, kernel_2)
