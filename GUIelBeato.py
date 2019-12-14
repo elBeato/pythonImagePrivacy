@@ -40,11 +40,11 @@ class Filter(object):
         crop_face = faces[y:y + h, x:x + w]
 
         if filterOption == 1:
-            blur_face = cv2.blur(crop_face, (15, 15))
+            blur_face = cv2.blur(crop_face, (3, 15))
         elif filterOption == 2:
             blur_face = self.shiftPixels(crop_face)
         elif filterOption == 3:
-            blur_face = self.applyPreventFD(crop_face)
+            blur_face = self.applyGuissian(crop_face, 5, 20)
         elif filterOption == 4:
             blur_face = self.applyMasterFilter(crop_face)
         # blur_face = self.applyInvert(crop_face, 0)
@@ -99,7 +99,7 @@ class Filter(object):
             i += 1
         return newImage
 
-    def applyPreventFD(self, faces, mean=30, deviation=50):
+    def applyGuissian(self, faces, mean, deviation):
         '''
         Gauissian filter for coloured pictures
         :param faces: image from a face on the picture
@@ -153,43 +153,42 @@ class GUI(object):
         self.f = Filter()
 
         self.v = tkinter.IntVar()
-        self.v.set(4)  # initializing the choice, i.e. Python
-
-        languages = [("Python", 1), ("Perl", 2), ("Java", 3), ("C++", 4), ("C", 5)]
+        self.v.set(4)  # initializing the choice, i.e. Master Filter
+        self.intense = 10
 
         # Frames for buttons, radiobuttons and menu
-        self.frame_btn = tkinter.Frame(window)
-        self.frame_rb = tkinter.Frame(window)
-        self.frame_menu = tkinter.Frame(window)
+        frame_btn = tkinter.Frame(self.window)
+        frame_rb = tkinter.Frame(self.window)
+        frame_menu = tkinter.Frame(self.window)
 
         # Button that lets the user blur/transform/change the faces
-        self.btn_dedect=tkinter.Button(self.frame_btn, text="Dedecte", width=30, command=self.dedect)
-        self.btn_applyOnFaces=tkinter.Button(self.frame_btn, text="Apply filter", width=30, command=self.applyOnFaces)
-        self.btn_load_image=tkinter.Button(self.frame_menu, text="Load Image", width=30, command=self.load_image)
-        self.btn_clear=tkinter.Button(self.frame_menu, text="Clear filter & dedectors", width=30, command=self.clearFilterAndDedection)
+        btn_dedect=tkinter.Button(frame_btn, text="Dedecte", width=30, command=self.dedect)
+        btn_applyOnFaces=tkinter.Button(frame_btn, text="Apply filter", width=30, command=self.applyOnFaces)
+        btn_load_image=tkinter.Button(frame_menu, text="Load Image", width=30, command=self.load_image)
+        btn_clear=tkinter.Button(frame_menu, text="Clear filter & dedectors", width=30, command=self.clearFilterAndDedection)
 
         # Packing buttons
-        self.btn_dedect.pack(fill=tkinter.X, expand=True)
-        self.btn_load_image.pack(side=tkinter.RIGHT, expand=True)
-        self.btn_applyOnFaces.pack(fill=tkinter.X, expand=True)
-        self.btn_clear.pack(side=tkinter.RIGHT, expand=True)
+        btn_dedect.pack(fill=tkinter.X, expand=True)
+        btn_load_image.pack(side=tkinter.RIGHT, expand=True)
+        btn_applyOnFaces.pack(fill=tkinter.X, expand=True)
+        btn_clear.pack(side=tkinter.RIGHT, expand=True)
 
         # Radiobuttons for choose some filter method
-        self.rb1 = tkinter.Radiobutton(self.frame_rb, text="Bluring", padx=20, variable=self.v, value=1)
-        self.rb2 = tkinter.Radiobutton(self.frame_rb, text="Shift Pixel", padx=20, variable=self.v, value=2)
-        self.rb3 = tkinter.Radiobutton(self.frame_rb, text="Guissan Filter", padx=20, variable=self.v, value=3)
-        self.rb4 = tkinter.Radiobutton(self.frame_rb, text="Master Filter", padx=20, variable=self.v, value=4)
+        rb1 = tkinter.Radiobutton(frame_rb, text="Bluring", padx=20, variable=self.v, value=1)
+        rb2 = tkinter.Radiobutton(frame_rb, text="Shift Pixel", padx=20, variable=self.v, value=2)
+        rb3 = tkinter.Radiobutton(frame_rb, text="Guissan Filter", padx=20, variable=self.v, value=3)
+        rb4 = tkinter.Radiobutton(frame_rb, text="Master Filter", padx=20, variable=self.v, value=4)
 
         # Packing radiobuttenx
-        self.rb1.pack(side=tkinter.RIGHT)
-        self.rb2.pack(side=tkinter.RIGHT)
-        self.rb3.pack(side=tkinter.RIGHT)
-        self.rb4.pack(side=tkinter.RIGHT)
+        rb1.pack(side=tkinter.RIGHT)
+        rb2.pack(side=tkinter.RIGHT)
+        rb3.pack(side=tkinter.RIGHT)
+        rb4.pack(side=tkinter.RIGHT)
 
         # Packing frames
-        self.frame_btn.pack(anchor=tkinter.N, fill=tkinter.X)
-        self.frame_menu.pack(anchor=tkinter.N, fill=tkinter.X)
-        self.frame_rb.pack(anchor=tkinter.N)
+        frame_btn.pack(anchor=tkinter.N, fill=tkinter.X)
+        frame_menu.pack(anchor=tkinter.N, fill=tkinter.X)
+        frame_rb.pack(anchor=tkinter.N)
 
         self.load_image()
 
@@ -203,8 +202,13 @@ class GUI(object):
         self.image_path = filedialog.askopenfilename(initialdir="/", title="Select file",
                                                 filetypes=(("jpeg files", "*.jpg"), ("all files", "*.*")))
         self.origin = self.reload_origin_image(cv2.imread(self.image_path))
-        # Load an image using OpenCV
-        self.cv_face = cv2.cvtColor(cv2.imread(self.image_path), cv2.COLOR_BGR2RGB)
+        # Resize image if it's too big
+        if self.origin[1].shape[0] > 560:
+            self.origin = (self.resize_image(self.origin[0]), self.resize_image(self.origin[1]))
+            self.cv_face = self.origin[1]
+        else:
+            # Load an image using OpenCV
+            self.cv_face = cv2.cvtColor(cv2.imread(self.image_path), cv2.COLOR_BGR2RGB)
         # Get the image dimensions (OpenCV stores image data as NumPy ndarray)
         self.height, self.width, channel = self.cv_face.shape
         # Create a canvas that can fit the above image
@@ -273,6 +277,10 @@ class GUI(object):
         if len(faces) == 0:
             messagebox.showinfo("Face dedector 2.0 - MATH101", error_Msg)
 
+    def resize_image(self, image):
+        img = image
+        ratio = 600 / image.shape[0]
+        return cv2.resize(img, None, fx = ratio, fy=ratio, interpolation = cv2.INTER_LINEAR)
 
 # Create a window and pass it to the Application object
 GUI(tkinter.Tk(), "Face dedection with Tkinter and OpenCV - by Beat Furrer")
