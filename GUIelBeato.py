@@ -40,7 +40,7 @@ class Filter(object):
         crop_face = faces[y:y + h, x:x + w]
 
         if filterOption == 1:
-            blur_face = cv2.blur(crop_face, (3, 15))
+            blur_face = cv2.blur(crop_face, (15, 15))
         elif filterOption == 2:
             blur_face = self.shiftPixels(crop_face)
         elif filterOption == 3:
