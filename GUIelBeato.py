@@ -153,14 +153,18 @@ class GUI(object):
         self.canvas = None
         self.f = Filter()
 
+        # Variables for Radiobuttons
         self.v = tkinter.IntVar()
         self.v.set(4)  # initializing the choice, i.e. Master Filter
+        self.fd = tkinter.IntVar()
+        self.fd.set(1)  # initializing the choice, i.e. Master Filter
         self.intense = 10
 
         # Frames for buttons, radiobuttons and menu
         frame_btn = tkinter.Frame(self.window)
         frame_rb = tkinter.Frame(self.window)
         frame_menu = tkinter.Frame(self.window)
+        frame_fd = tkinter.Frame(self.window)
 
         # Button that lets the user blur/transform/change the faces
         btn_dedect=tkinter.Button(frame_btn, text="Dedecte", width=30, command=self.dedect)
@@ -179,14 +183,21 @@ class GUI(object):
         rb2 = tkinter.Radiobutton(frame_rb, text="Shift Pixel", padx=20, variable=self.v, value=2)
         rb3 = tkinter.Radiobutton(frame_rb, text="Guissan Filter", padx=20, variable=self.v, value=3)
         rb4 = tkinter.Radiobutton(frame_rb, text="Master Filter", padx=20, variable=self.v, value=4)
+        # Face dedection
+        rb5 = tkinter.Radiobutton(frame_fd, text="Haar cascade", padx=20, variable=self.fd, value=1)
+        rb6 = tkinter.Radiobutton(frame_fd, text="Eye cascade", padx=20, variable=self.fd, value=2)
 
-        # Packing radiobuttenx
+        # Packing radiobuttens
         rb1.pack(side=tkinter.RIGHT)
         rb2.pack(side=tkinter.RIGHT)
         rb3.pack(side=tkinter.RIGHT)
         rb4.pack(side=tkinter.RIGHT)
+        # Packing face radiobuttons
+        rb5.pack(side=tkinter.RIGHT)
+        rb6.pack(side=tkinter.LEFT)
 
         # Packing frames
+        frame_fd.pack(anchor=tkinter.N, fill=tkinter.X)
         frame_btn.pack(anchor=tkinter.N, fill=tkinter.X)
         frame_menu.pack(anchor=tkinter.N, fill=tkinter.X)
         frame_rb.pack(anchor=tkinter.N)
@@ -248,7 +259,7 @@ class GUI(object):
         # blur defined areas in a picture
         for (x, y, w, h) in faces:
             # Method: apply() from class: Filter
-            if self.v.get() == 3 or 2:
+            if self.v.get() == 3 or self.v.get() == 2:
                 self.cv_face = self.f.applyBlur(self.origin[1], [x, y, w, h], 1, self.v.get())
             else:
                 self.cv_face = self.f.applyBlur(self.origin[0], [x, y, w, h], 1, self.v.get())
@@ -257,6 +268,12 @@ class GUI(object):
         self.canvas.create_image(0, 0, image=self.photo, anchor=tkinter.NW)
 
     def dedect(self):
+        if self.fd.get() == 1:
+            self.dedect_hair()
+        elif self.fd.get() == 2:
+            self.dedect_eye()
+
+    def dedect_hair(self):
         ''' Dedection of faces on the image, if there are any, otherwise create a message box information '''
         self.face = self.cv_face
         # Load the cascade
@@ -267,6 +284,35 @@ class GUI(object):
         # Draw rectangle around the faces
         for (x, y, w, h) in faces:
             cv2.rectangle(self.face, (x, y), (x + w, y + h), (255, 0, 0), 2)
+
+        self.feedback_user("No faces dedected - the filter is to good!", faces)
+
+        self.photo = PIL.ImageTk.PhotoImage(image=PIL.Image.fromarray(self.face))
+        self.canvas.create_image(0, 0, image=self.photo, anchor=tkinter.NW)
+
+    def dedect_eye(self):
+        ''' Dedection of faces on the image, if there are any, otherwise create a message box information '''
+        self.face = self.cv_face
+        # Load the cascade
+        eye_cascade = cv2.CascadeClassifier('haarcascade_eye.xml')
+
+        # Built-in function to read the xml-files and load the trained flies for detecting the face and eyes
+        face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+        eye_cascade = cv2.CascadeClassifier('haarcascade_eye.xml')
+
+        # face detection
+        faces = face_cascade.detectMultiScale(self.face, 1.1, 4)
+        # Draw rectangle around the faces --> x= starting point at xlim, y= starting point at ylim, w= width, h= height
+        for (x, y, w, h) in faces:
+            cv2.rectangle(self.face, (x, y), (x + w, y + h), (255, 0, 0), 2)
+
+        #eye detection
+        eyes = eye_cascade.detectMultiScale(self.face, 1.1, 4)
+        #Draw rectangle around the eyes, only if eye are in the face area
+        for (ex, ey, ew, eh) in eyes:
+            if (ex + ew) < (x + w) and (ey + eh) < (y + h):
+                cv2.rectangle(self.face, (ex, ey), (ex + ew, ey + eh), (0, 255, 0), 2)
+            else: print("eye not in face area detected")
 
         self.feedback_user("No faces dedected - the filter is to good!", faces)
 
