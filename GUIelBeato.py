@@ -130,7 +130,8 @@ class Filter(object):
         for i in range(1, crop_face.shape[0]):
             for j in range(1, crop_face.shape[1]):
                 if j % 2 == 0 and i % 2 == 0:       # diagonale < j für Dreiecke
-                    crop_face[i, j] = 0
+                    for ch in range(0,3):
+                        crop_face[i, j][ch] = 255
                 j += 1
             i += 1
             diagonale += 1
@@ -247,7 +248,7 @@ class GUI(object):
         # blur defined areas in a picture
         for (x, y, w, h) in faces:
             # Method: apply() from class: Filter
-            if self.v.get() == 3:
+            if self.v.get() == 3 or 2:
                 self.cv_face = self.f.applyBlur(self.origin[1], [x, y, w, h], 1, self.v.get())
             else:
                 self.cv_face = self.f.applyBlur(self.origin[0], [x, y, w, h], 1, self.v.get())
